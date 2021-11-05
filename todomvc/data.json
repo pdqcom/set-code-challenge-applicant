@@ -1,56 +1,14 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  },
   "todos": [
     {
       "title": "test api",
       "completed": false,
-      "id": "2631561662"
+      "id": "2330252858"
     },
     {
       "title": "test api",
       "completed": false,
-      "id": "9414198320"
-    },
-    {
-      "title": "test api",
-      "completed": false,
-      "id": "6940656649"
-    },
-    {
-      "title": "test api",
-      "completed": false,
-      "id": "0775225268"
-    },
-    {
-      "title": "test api",
-      "completed": false,
-      "id": "7081789709"
-    },
-    {
-      "title": "test api",
-      "completed": false,
-      "id": "0996317530"
-    },
-    {
-      "title": "test api",
-      "completed": false,
-      "id": "8075510622"
+      "id": "7913153364"
     }
   ]
 }

@@ -19,15 +19,33 @@ describe('functional requirements', () => {
    * TODO: Validate that the items are seperate entities
    */
   it('allows duplicate list items', () => {
-    cy.createTodo('my first todo')
-    cy.createTodo('my first todo')
+ 
+    cy.get('input.new-todo').type('test api{enter}')
+    cy.get('input.new-todo').type('test api{enter}')
+    cy.wait(1000)
+    cy.get('.todo-list li').should('have.length', 2)
+ 
+    cy.get('.todo-list li:first').should('contain', 'test api')
+    cy.get('.todo-list li:last').should('contain', 'test api')
+
+    cy.get('.todo-list li:first').should('not.have.class', 'completed')
+    cy.get('.todo-list li:last').should('not.have.class', 'completed')
+
   })
 
   /**
    * TODO: Complete a todo
    * TODO: Validate the completed UI element
    */
-  it('completes a todo', () => {})
+  it('completes a todo', () => {
+
+    cy.get('.todo-list li:first').should('not.have.class', 'completed')
+
+    cy.get('.todo-list li:first .toggle').click()
+
+    cy.get('.todo-list li:first').should('have.class', 'completed')
+
+  })
 
   /**
    * When I attempt to add a todo
@@ -40,7 +58,14 @@ describe('functional requirements', () => {
    * https://docs.cypress.io/api/events/catalog-of-events#App-Events
    */
   it('does not allow adding blank todos', () => {
-    cy.createTodo(' ')
+    cy.get('.new-todo').type('{enter}')
+    cy.on('uncaught:exception', e => {
+      return !e.message.includes('Cannot add a blank todo')
+    })
+    cy.get('input.new-todo').type(' {enter}')
+    cy.get('li.todo').should('have.length', 2)
+    cy.get('li.todo label').should('not.have.text', ' ')
+      
   })
 })
 
@@ -62,10 +87,21 @@ context('network requests', () => {
    * https://docs.cypress.io/api/commands/intercept
    */
   describe('/post requests', () => {
-    it('posts new item to the server', () => {
+    beforeEach(() => {
+      cy.intercept('/todos', []).as('todos')
       cy.visit('/')
+      cy.wait('@todos')
+    })
+    
+    it('enter todos', () => {
+      cy.intercept('POST', '/todos').as('post')
       cy.get('.new-todo').type('test api{enter}')
-      cy.intercept('POST', 'http://localhost:3000/todos').as('postTodo')
+      cy.wait('@post')
+        .its('request.body')
+        .should('deep.include', {
+          title: 'test api',
+          completed: false
+        })
     })
   })
 
@@ -81,6 +117,7 @@ context('network requests', () => {
    * TODO: Validates that it reset the state of the app
    */
   context('reset data using /reset', () => {
+    
     beforeEach(() => {
       cy.request('PATCH', '/reset', {
         todos: []
@@ -99,15 +136,17 @@ context('network requests', () => {
      * TODO: intercept the request
      * TODO: Validate that the default state is to return zero items
      */
+  
+      
     it('/get returns no todos', () => {
       cy.intercept('GET', '/todos', []).as('todos')
       cy.visit('/')
       cy.wait('@todos') // wait for `GET /todos` response
         // inspect the server's response
         .its('response.body')
-        .should('not.have.length', 1)
+        .should('have.length', 0)
       // then check the DOM
-      cy.get('li.todo').should('not.have.length', 1)
+      cy.get('li.todo').should('have.length', 0)
     })
   })
 })
