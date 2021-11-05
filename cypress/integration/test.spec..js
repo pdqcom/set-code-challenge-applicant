@@ -65,10 +65,7 @@ context('network requests', () => {
     it('posts new item to the server', () => {
       cy.visit('/')
       cy.get('.new-todo').type('test api{enter}')
-      cy.wait('@new-item').its('request.body').should('have.contain', {
-        title: 'api',
-        completed: false
-      })
+      cy.intercept('POST', 'http://localhost:3000/todos').as('postTodo')
     })
   })
 
