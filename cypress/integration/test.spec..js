@@ -7,9 +7,7 @@
 // https://docs.cypress.io/api/table-of-contents
 
 describe('functional requirements', () => {
-  /**
-   * TODO: visit the relative path of our application via the baseUrl
-   */
+
   beforeEach(() => {
     cy.visit('')
   })

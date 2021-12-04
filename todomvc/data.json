@@ -16,5 +16,16 @@
   "profile": {
     "name": "typicode"
   },
-  "todos": []
+  "todos": [
+    {
+      "title": "test api",
+      "completed": false,
+      "id": "7151378364"
+    },
+    {
+      "title": "test api",
+      "completed": false,
+      "id": "9133993029"
+    }
+  ]
 }
