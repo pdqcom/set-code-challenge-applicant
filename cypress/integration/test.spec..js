@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import {getTodo, resetDatabase} from "../support/utils"
+import { getTodo, resetDatabase } from "../support/utils"
 //This is a series of tests for our TODOmvc app
 //You will need to fix each test
 
@@ -14,43 +14,43 @@ describe('functional requirements', () => {
   })
 
   it('allows duplicate list items', () => {
-    let todoText='my first todo'
+    let todoText = 'my first todo'
     cy.createTodo(todoText)
     cy.createTodo(todoText)
-    const lastItem = getTodo(0)
-    lastItem.contains(todoText)
-    const firstItem = getTodo(1)
-    firstItem.contains(todoText)
+    const item1 = getTodo(0)
+    item1.contains(todoText)
+    const item2 = getTodo(1)
+    item2.contains(todoText)
   })
 
   it('creates only one todo at a time', () => {
-    let todoText='my first todo'
+    let todoText = 'my first todo'
     cy.createTodo(todoText)
     const list = '.todoapp .todo-list'
-    cy.get(list).should("have.length",1)
+    cy.get(list).should("have.length", 1)
   })
-  
-  it('adds newest todo to the bottom of the list', () => {
-    cy.createTodo('my first todo')
-    cy.createTodo('my second todo')
-  })
-  /**
-   * TODO: Complete a todo
-   * TODO: Validate the completed UI element
-   */
-  it('completes a todo', () => {})
 
-  /**
-   * When I attempt to add a todo
-   * And the todo is an empty string
-   * Then the application will throw an error
-   *
-   * TODO: Verify the application throws an error
-   * TODO: Validate the contents of the the error
-   *
-   * https://docs.cypress.io/api/events/catalog-of-events#App-Events
-   */
-  it('does not allow adding blank todos', () => {
+  it('adds newest todo to the bottom of the list', () => {
+    let lastItemText = 'my second todo'
+    cy.createTodo('my first todo')
+    cy.createTodo(lastItemText)
+    const lastItem = '.todoapp .todo-list li:last'
+    cy.get(lastItem).contains(lastItemText)
+  })
+
+  it('completes a todo', () => {
+    cy.createTodo('my first todo')
+    cy.removeTodo('my first todo')
+    cy.get('.todoapp .todo-list>li')
+      .should("have.length", 0);
+  })
+
+  it('does not allow adding blank todos', (done) => {
+    cy.on('uncaught:exception', (err, runnable) => {
+      expect(err.message).to.include('Cannot add a blank todo')
+      done()
+      return false
+    })
     cy.createTodo(' ')
   })
 })

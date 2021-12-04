@@ -10,8 +10,12 @@
  *  Because we want to keep our log clean, make sure to only log the above, not any of the cypress commands
  * https://docs.cypress.io/api/commands/log
  */
-import { enterTodo } from "./utils"
-Cypress.Commands.add('createTodo', (todoText)=>{
-    enterTodo(todoText)
+import { enterTodo, removeTodo } from "./utils"
+Cypress.Commands.add('createTodo', (todoText) => {
+    enterTodo(todoText, false)
     cy.log('Created Todo', todoText)
+})
+Cypress.Commands.add('removeTodo', (todoText) => {
+    removeTodo(todoText, false)
+    cy.log('Removed Todo', todoText)
 })
