@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-
+import {getTodo, resetDatabase} from "../support/utils"
 //This is a series of tests for our TODOmvc app
 //You will need to fix each test
 
@@ -9,18 +9,31 @@
 describe('functional requirements', () => {
 
   beforeEach(() => {
+    resetDatabase()
     cy.visit('')
   })
 
-  /**
-   * TODO: Create duplicate items
-   * TODO: Validate that the items are seperate entities
-   */
   it('allows duplicate list items', () => {
-    cy.createTodo('my first todo')
-    cy.createTodo('my first todo')
+    let todoText='my first todo'
+    cy.createTodo(todoText)
+    cy.createTodo(todoText)
+    const lastItem = getTodo(0)
+    lastItem.contains(todoText)
+    const firstItem = getTodo(1)
+    firstItem.contains(todoText)
   })
 
+  it('creates only one todo at a time', () => {
+    let todoText='my first todo'
+    cy.createTodo(todoText)
+    const list = '.todoapp .todo-list'
+    cy.get(list).should("have.length",1)
+  })
+  
+  it('adds newest todo to the bottom of the list', () => {
+    cy.createTodo('my first todo')
+    cy.createTodo('my second todo')
+  })
   /**
    * TODO: Complete a todo
    * TODO: Validate the completed UI element

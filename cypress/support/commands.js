@@ -10,4 +10,8 @@
  *  Because we want to keep our log clean, make sure to only log the above, not any of the cypress commands
  * https://docs.cypress.io/api/commands/log
  */
-Cypress.Commands.add('createTodo', () => {})
+import { enterTodo } from "./utils"
+Cypress.Commands.add('createTodo', (todoText)=>{
+    enterTodo(todoText)
+    cy.log('Created Todo', todoText)
+})

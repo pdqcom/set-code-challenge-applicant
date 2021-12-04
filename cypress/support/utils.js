@@ -86,7 +86,8 @@ export const getNewTodoInput = () => getTodoApp().find('.new-todo')
 
 /**
  * Adds new todo to the app.
- *
+ * and verifies it was added
+ * 
  * @param text {string} Text to enter
  * @example
  *  enterTodo('my todo')
@@ -101,6 +102,18 @@ export const enterTodo = (text = 'example todo') => {
   // the element and not use stale reference from previous chain call
   const lastItem = '.todoapp .todo-list li:last'
   cy.get(lastItem).should('contain', text)
+}
+/**
+ * get a todo by index
+ * 
+ * @param index {int} 0 based item index
+ * @example
+ *  getTodo(0)
+ */
+export const getTodo = (index) => {
+  
+  const list = '.todoapp .todo-list>li'
+   return cy.get(list).eq(index)
 }
 
 /**
