@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { getTodo, makeTodo, resetDatabase, stubMathRandom } from "../support/utils"
+import { getTodo, getTodoItems, makeTodo, resetDatabase, resetDatabaseTo, stubMathRandom } from "../support/utils"
 //This is a series of tests for our TODOmvc app
 //You will need to fix each test
 
@@ -26,8 +26,7 @@ describe('functional requirements', () => {
   it('creates only one todo at a time', () => {
     let todoText = 'my first todo'
     cy.createTodo(todoText)
-    const list = '.todoapp .todo-list'
-    cy.get(list).should("have.length", 1)
+    getTodoItems().should("have.length", 1)
   })
 
   it('adds newest todo to the bottom of the list', () => {
@@ -41,7 +40,7 @@ describe('functional requirements', () => {
   it('completes a todo', () => {
     cy.createTodo('my first todo')
     cy.removeTodo('my first todo')
-    cy.get('.todoapp .todo-list>li')
+    getTodoItems()
       .should("have.length", 0);
   })
 
@@ -85,23 +84,16 @@ context('network requests', () => {
     })
   })
 
-  /**
-   * TODO's persist in the database, we'll need to check that we can reset the state of the app
-   *
-   * When I send a post request to the server
-   * And I hit the right endpoint
-   * And I have the correct format
-   * Then it should reset the todos in the database
-   *
-   * TODO: Send a request to /reset
-   * TODO: Validates that it reset the state of the app
-   */
-  context('reset data using /reset', () => {
+  context('reset data using /reset', () => {//should use fixtue i think
     beforeEach(() => {
-      cy.request('PATCH', '/reset', {
-        todos: []
-      })
-      cy.visit('/reset')
+      resetDatabaseTo("fakedatabase.json")
+    })
+    it("can be reset", () => {
+      cy.visit('/')
+      getTodoItems().should("have.length", 2)
+      resetDatabase()
+      cy.visit('/')
+      getTodoItems().should("have.length", 0)
     })
   })
 
