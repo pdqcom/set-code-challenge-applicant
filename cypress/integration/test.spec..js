@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { getTodo, resetDatabase } from "../support/utils"
+import { getTodo, makeTodo, resetDatabase, stubMathRandom } from "../support/utils"
 //This is a series of tests for our TODOmvc app
 //You will need to fix each test
 
@@ -60,25 +60,27 @@ describe('functional requirements', () => {
  * Using those methods, fulfill the criterious below.
  */
 context('network requests', () => {
-  /**
-   * When I send a /post request to the server
-   * And I hit the right endpoint
-   * And I have the correct format
-   * Then it should add a todo
-   *
-   * TODO: make the request: with a post method or through the GUI
-   * TODO: intercept the request
-   * TODO: Validate that items are added with the correct properties.
-   *
-   * https://docs.cypress.io/api/commands/intercept
-   */
+
   describe('/post requests', () => {
     it('posts new item to the server', () => {
       cy.visit('/')
+      stubMathRandom()
+      cy.intercept(
+        {
+          method: 'POST',
+          url: '/todos',
+        },
+        {
+          title: 'mocked todo',
+          completed: false,
+          id: "777"
+        }
+      ).as('new-item-request')
       cy.get('.new-todo').type('test api{enter}')
-      cy.wait('@new-item').its('request.body').should('have.contain', {
-        title: 'api',
-        completed: false
+      cy.wait('@new-item-request').its('request.body').should('have.contain', {
+        title: 'test api',
+        completed: false,
+        id: "1"
       })
     })
   })
