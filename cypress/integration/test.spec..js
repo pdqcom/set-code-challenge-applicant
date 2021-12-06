@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { getTodo, getTodoItems, makeTodo, resetData, resetDatabase, resetDatabaseTo, stubMathRandom } from "../support/utils"
+import { getTodo, getTodoItems, resetDatabase, resetDatabaseTo, stubMathRandom } from "../support/utils"
 //This is a series of tests for our TODOmvc app
 //You will need to fix each test
 
