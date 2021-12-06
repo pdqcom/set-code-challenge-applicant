@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { getTodo, getTodoItems, makeTodo, resetDatabase, resetDatabaseTo, stubMathRandom } from "../support/utils"
+import { getTodo, getTodoItems, makeTodo, resetData, resetDatabase, resetDatabaseTo, stubMathRandom } from "../support/utils"
 //This is a series of tests for our TODOmvc app
 //You will need to fix each test
 
@@ -84,7 +84,7 @@ context('network requests', () => {
     })
   })
 
-  context('reset data using /reset', () => {//should use fixtue i think
+  context('reset data using /reset', () => {
     beforeEach(() => {
       resetDatabaseTo("fakedatabase.json")
     })
@@ -103,19 +103,20 @@ context('network requests', () => {
      * And reload the application
      * Then there should be no todo entries.
      *
-     * TODO: make a get reuqest to /todos
-     * TODO: intercept the request
-     * TODO: Validate that the default state is to return zero items
      */
-    it('/get returns no todos', () => {
+    beforeEach(() => {
+      resetDatabaseTo("fakedatabase.json")
+    })
+    it('/get returns no todos after reset', () => {
+      resetDatabase()
       cy.intercept('GET', '/todos', []).as('todos')
       cy.visit('/')
       cy.wait('@todos') // wait for `GET /todos` response
         // inspect the server's response
         .its('response.body')
-        .should('not.have.length', 1)
+        .should('have.length', 0)
       // then check the DOM
-      cy.get('li.todo').should('not.have.length', 1)
+      cy.get('li.todo').should('have.length', 0)
     })
   })
 })
