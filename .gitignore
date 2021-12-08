@@ -22,5 +22,5 @@ dist
 coverage
 npm-debug.log
 posted.json
-
+.vscode/
 
