@@ -8,39 +8,71 @@
 
 describe('functional requirements', () => {
   /**
-   * TODO: visit the relative path of our application via the baseUrl
+   * visit the relative path of our application via the baseUrl, also resets the Database before each test.
    */
   beforeEach(() => {
-    cy.visit('')
+    cy.request('POST', 'http://localhost:3000/reset', {
+      todos: []
+    })
+    cy.visit('http://localhost:3000')
   })
 
   /**
-   * TODO: Create duplicate items
-   * TODO: Validate that the items are seperate entities
+   * Create duplicate items
+   * Validate that the items are seperate entities
    */
   it('allows duplicate list items', () => {
-    cy.createTodo('my first todo')
-    cy.createTodo('my first todo')
+
+    // Create duplicate items using custom command from commands.js
+    cy.createTodo('duplicate');
+    cy.createTodo('duplicate');
+
+    // Validate that the items are seperate entities
+    cy.get(':nth-child(1) > .view').should('be.visible');
+    cy.get(':nth-child(2) > .view').should('be.visible');
+
   })
 
   /**
-   * TODO: Complete a todo
-   * TODO: Validate the completed UI element
+   * Complete a todo
+   * Validate the completed UI element
    */
-  it('completes a todo', () => {})
+  it('completes a todo', () => {
+
+    // Create a todo
+    cy.createTodo('complete me')
+
+    // Mark the todo completed
+    cy.get(':nth-child(1) > .view > .toggle').check();
+
+    // Validate todo is marked as completed
+    cy.get(':nth-child(1) > .view > .toggle').should('be.checked');
+
+  })
 
   /**
    * When I attempt to add a todo
    * And the todo is an empty string
    * Then the application will throw an error
    *
-   * TODO: Verify the application throws an error
-   * TODO: Validate the contents of the the error
+   * Verify the application throws an error
+   * Validate the contents of the the error
    *
    * https://docs.cypress.io/api/events/catalog-of-events#App-Events
    */
   it('does not allow adding blank todos', () => {
+
+    //prepare to catch the exception
+    cy.on('uncaught:exception', (err, runnable) => {
+      expect(err.message).to.include('Cannot add a blank todo');
+
+      //return false so that test doesn't fail (error is expected)
+      return false
+    })
+
+    //create a blank todo, throwing the exception we expected earlier.
     cy.createTodo(' ')
+
   })
 })
 
@@ -55,19 +87,23 @@ context('network requests', () => {
    * And I have the correct format
    * Then it should add a todo
    *
-   * TODO: make the request: with a post method or through the GUI
-   * TODO: intercept the request
-   * TODO: Validate that items are added with the correct properties.
+   * make the request: with a post method or through the GUI
+   * intercept the request
+   * Validate that items are added with the correct properties.
    *
    * https://docs.cypress.io/api/commands/intercept
    */
   describe('/post requests', () => {
     it('posts new item to the server', () => {
-      cy.visit('/')
-      cy.get('.new-todo').type('test api{enter}')
-      cy.wait('@new-item').its('request.body').should('have.contain', {
-        title: 'api',
-        completed: false
+
+      cy.request('POST', 'http://localhost:3000/todos', {
+        completed: false,
+        id: "4538631948",
+        title: "post-test"
+      }).then((response) => {
+        expect(response.body).to.have.property('title', 'post-test') // true
+        expect(response.body).to.have.property('id', '4538631948') //true
+        expect(response.body).to.have.property('completed', false) //true
       })
     })
   })
@@ -80,16 +116,18 @@ context('network requests', () => {
    * And I have the correct format
    * Then it should reset the todos in the database
    *
-   * TODO: Send a request to /reset
-   * TODO: Validates that it reset the state of the app
+   * Send a request to /reset
+   * Validates that it reset the state of the app
    */
   context('reset data using /reset', () => {
     beforeEach(() => {
-      cy.request('PATCH', '/reset', {
+      cy.request('POST', 'http://localhost:3000/reset', {
         todos: []
       })
-      cy.visit('/reset')
+      cy.visit('http://localhost:3000')
+      cy.get('li.todo').should('not.have.length', 1)
     })
+
   })
 
   describe('/get requests', () => {
@@ -98,17 +136,18 @@ context('network requests', () => {
      * And reload the application
      * Then there should be no todo entries.
      *
-     * TODO: make a get reuqest to /todos
-     * TODO: intercept the request
-     * TODO: Validate that the default state is to return zero items
+     * make a get reuqest to /todos
+     * intercept the request
+     * Validate that the default state is to return zero items
      */
     it('/get returns no todos', () => {
-      cy.intercept('GET', '/todos', []).as('todos')
-      cy.visit('/')
+      cy.intercept('GET', 'http://localhost:3000/todos', []).as('todos')
+      cy.visit('http://localhost:3000')
       cy.wait('@todos') // wait for `GET /todos` response
         // inspect the server's response
         .its('response.body')
         .should('not.have.length', 1)
+
       // then check the DOM
       cy.get('li.todo').should('not.have.length', 1)
     })
