@@ -23,12 +23,14 @@ describe('functional requirements', () => {
   it('allows duplicate list items', () => {
     cy.createTodo('my first todo')
     cy.createTodo('my first todo')
+    // to validate items are separate entities
+    // I GET the /todos and deep compare the last 2
+    // entries. I am looking for different ids.
     cy.request('GET', '/todos')
       .then((response) => {
-        const body = response.body
-        const n = body.length
-        // validate last 2 items just created
-        expect(body[n-2]).to.not.deep.equal(body[n-1])
+        const todos = response.body
+        const n = todos.length
+        expect(todos[n-2]).to.not.deep.equal(todos[n-1])
       })
   })
 
@@ -54,7 +56,9 @@ describe('functional requirements', () => {
   it('does not allow adding blank todos', (done) => {
     Cypress.on('uncaught:exception', (e) => {
       expect(e.message).to.include('Cannot add a blank todo')
-      // Cypress will timeout if the error isn't thrown
+      // I verify the app throws an error by calling `done()`
+      // if the app doesn't throw an error, `done()` isn't called,
+      // and Cypress will timeout.
       done()
       return false
     })
@@ -113,7 +117,9 @@ context('network requests', () => {
       })
       cy.visit('/reset')
       cy.wait('@reset')
-        // inspect the server's state
+        // I assume the response from a post request
+        // to /reset contains the server's state.todos
+        // which should be an emtpy array
         .its('response.body.todos')
         .should('have.length', 0)
     })
