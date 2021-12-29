@@ -23,14 +23,16 @@ describe('functional requirements', () => {
   it('allows duplicate list items', () => {
     cy.createTodo('my first todo')
     cy.createTodo('my first todo')
-    // to validate items are separate entities
-    // I GET the /todos and deep compare the last 2
-    // entries. I am looking for different ids.
+    // For 2 items to have the same title and be separate entities
+    // they must have different ids
     cy.request('GET', '/todos')
       .then((response) => {
         const todos = response.body
         const n = todos.length
-        expect(todos[n-2]).to.not.deep.equal(todos[n-1])
+        const a = todos[n-2]
+        const b = todos[n-1]
+        expect(a.title).to.equal(b.title)
+        expect(a.id).to.not.equal(b.id)
       })
   })
 
@@ -40,6 +42,13 @@ describe('functional requirements', () => {
    */
   it('completes a todo', () => {
     getTodoItems().last().find('.toggle').click()
+    getTodoItems().last().should('have.class', 'completed')
+  })
+
+  /**
+   * Validate a completed todo will persist
+   */
+  it('saves completed todos', () => {
     getTodoItems().last().should('have.class', 'completed')
   })
 
