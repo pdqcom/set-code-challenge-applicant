@@ -11,5 +11,6 @@
  * https://docs.cypress.io/api/commands/log
  */
 Cypress.Commands.add('createTodo', (todoString) => {
-    cy.get('.new-todo').type(todoString).type('{enter}'); 
+    cy.get('.new-todo').type(todoString).type('{enter}')
+    cy.log('adding todo', todoString)
 })
