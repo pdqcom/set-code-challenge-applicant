@@ -90,9 +90,11 @@ context('network requests', () => {
         title: 'test api',
         completed: false
       })
+      // validating in the DOM as well
+      cy.get('.todo').last().contains('test api')
     })
-  })
 
+  })
 
   /**
    * TODO's persist in the database, we'll need to check that we can reset the state of the app
@@ -103,36 +105,40 @@ context('network requests', () => {
    * Then it should reset the todos in the database
    *
    * TODO: Send a request to /reset
-   * TODO: Validates that it reset the state of the app
+   * TODO: Validates that it reset the state of the app (checking for this in the following describe block)
    */
   context('reset data using /reset', () => {
     beforeEach(() => {
-      cy.request('PATCH', '/reset', {
-        todos: []
+      cy.request({
+        method: 'POST',
+        url: '/reset',
+        body: {
+          todos: []
+        }
       })
-      cy.visit('/reset')
     })
-  })
 
-  describe('/get requests', () => {
-    /**
-     * When I reset the database
-     * And reload the application
-     * Then there should be no todo entries.
-     *
-     * TODO: make a get reuqest to /todos
-     * TODO: intercept the request
-     * TODO: Validate that the default state is to return zero items
-     */
-    it('/get returns no todos', () => {
-      cy.intercept('GET', '/todos', []).as('todos')
-      cy.visit('/')
-      cy.wait('@todos') // wait for `GET /todos` response
-        // inspect the server's response
-        .its('response.body')
-        .should('not.have.length', 1)
-      // then check the DOM
-      cy.get('li.todo').should('not.have.length', 1)
+    describe('/get requests', () => {
+      /**
+       * When I reset the database
+       * And reload the application
+       * Then there should be no todo entries.
+       *
+       * TODO: make a get request to /todos
+       * TODO: intercept the request
+       * TODO: Validate that the default state is to return zero items
+       */
+      it('/get returns no todos', () => {
+        cy.intercept('GET', '/todos').as('todos')
+        cy.visit('/')
+        cy.wait('@todos') // wait for `GET /todos` response
+          // inspect the server's response
+          .its('response.body')
+          .should('have.length', 0)
+        // then check the DOM
+        cy.get('.todo').should('not.exist')
+      })
     })
+
   })
 })
