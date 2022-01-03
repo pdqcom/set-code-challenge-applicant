@@ -10,4 +10,6 @@
  *  Because we want to keep our log clean, make sure to only log the above, not any of the cypress commands
  * https://docs.cypress.io/api/commands/log
  */
-Cypress.Commands.add('createTodo', () => {})
+Cypress.Commands.add('createTodo', (todoString) => {
+    cy.get('.new-todo').type(todoString).type('{enter}'); 
+})

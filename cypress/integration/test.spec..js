@@ -11,7 +11,7 @@ describe('functional requirements', () => {
    * TODO: visit the relative path of our application via the baseUrl
    */
   beforeEach(() => {
-    cy.visit('')
+    cy.visit('/')
   })
 
   /**
@@ -19,15 +19,28 @@ describe('functional requirements', () => {
    * TODO: Validate that the items are seperate entities
    */
   it('allows duplicate list items', () => {
-    cy.createTodo('my first todo')
-    cy.createTodo('my first todo')
+    const todoString = 'my first todo'
+    cy.createTodo(todoString)
+    cy.createTodo(todoString)
+    cy.get('.todo').eq(0).contains(todoString)
+    cy.get('.todo').eq(1).contains(todoString)
+
+    // could also do it this way:
+    cy.get('.todo').should(($todo) => {
+      expect($todo.eq(0)).to.contain(todoString)
+      expect($todo.eq(1)).to.contain(todoString)
+    })
+
   })
 
   /**
    * TODO: Complete a todo
    * TODO: Validate the completed UI element
    */
-  it('completes a todo', () => {})
+  it('completes a todo', () => {
+    cy.get('.todo .toggle').eq(0).click()
+    cy.get('.todo').eq(0).should('have.class', 'completed');
+  })
 
   /**
    * When I attempt to add a todo
@@ -39,8 +52,15 @@ describe('functional requirements', () => {
    *
    * https://docs.cypress.io/api/events/catalog-of-events#App-Events
    */
-  it('does not allow adding blank todos', () => {
+  it('does not allow adding blank todos', (done) => {
+    cy.on('uncaught:exception', (err, runnable) => {
+      expect(err.message).to.include('Cannot add a blank todo')
+      done()
+      return false
+    })
+
     cy.createTodo(' ')
+
   })
 })
 
@@ -63,14 +83,16 @@ context('network requests', () => {
    */
   describe('/post requests', () => {
     it('posts new item to the server', () => {
+      cy.intercept('POST', '/todos').as('new-item')
       cy.visit('/')
       cy.get('.new-todo').type('test api{enter}')
       cy.wait('@new-item').its('request.body').should('have.contain', {
-        title: 'api',
+        title: 'test api',
         completed: false
       })
     })
   })
+
 
   /**
    * TODO's persist in the database, we'll need to check that we can reset the state of the app
