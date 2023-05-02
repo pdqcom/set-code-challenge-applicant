@@ -2,8 +2,8 @@
 
 Part 1: Cypress 
 
-1. Clone the repository and start the application. 
-2. Implement (or fix!) the tests found in `./cypress` 
+1. Clone the repository 
+2. Implement (or fix!) the tests/commands found in `./cypress` 
 3. Make a PR to the repo
 
 Part 2: Algo Challenge
@@ -16,7 +16,7 @@ Part 2: Algo Challenge
 
 ## Installation
 
-- [Node 12.0.0+ (LTS)](https://nodejs.org/), check [GH workflow file](.github/workflows/min-node-version.yml)
+- [Node 18.0.0+ (LTS)](https://nodejs.org/)
 - [git](https://git-scm.com)
 
 Once you have the requirements, install the deps by running install in the root directory.
@@ -26,53 +26,19 @@ npm install
 ```
 ### Quick check ✅
 
-You can test the installation by starting the application. 
-
-```shell
-npm start
-```
-
-and you should see in the terminal
-
-```text
-> json-server --static . data.json --middlewares ./node_modules/json-server-reset
-
-
-  \{^_^}/ hi!
-
-  Loading data.json
-  Loading ./node_modules/json-server-reset
-  Done
-
-  Resources
-  http://localhost:3000/todos
-
-  Home
-  http://localhost:3000
-```
-
-then you should see the application when you visit: 
-
-`http://localhost:3000`
-
-
-**Note for Windows users:** if `npm start` throws an error, it is probably due to `cd todomvc; ...` first command in the `npm start `script. In this case change the working folder to "todomvc" and run `npm start` from there.
+You can manually test the application with at test user in a test environment:
+1. Navigate to https://houston-staging.pdq.tools/v1/test-user
+2. Navigate to https://houston-staging.pdq.tools/
+3. Expand the red drawer to reset demo data
 
 ## Running Cypress 
 
 You can open the Cypress Test Runner gui using:
 
 ```bash
-$ npm run cy:open
+$ npx cypress open
 ```
 
 ```bash
-$ npm run cy:run
-```
-### Tip
-
-You can use the installed [start-server-and-test](https://github.com/bahmutov/start-server-and-test) utility to start the app, open Cypress and then shutdown the app when you exit Cypress.
-
-```bash
-$ npm run dev
+$ npx cypress run
 ```
