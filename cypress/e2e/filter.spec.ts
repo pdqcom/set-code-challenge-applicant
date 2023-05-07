@@ -9,13 +9,11 @@ describe('filter', () => {
 
   beforeEach(() => {
     cy.loginAsTestUser()
-    cy.visit('/')
     cy.resetDemoData()
     devicesListPage.load()
   })
 
   afterEach(() => {
-    cy.visit('/')
     cy.resetDemoData()
   })
 

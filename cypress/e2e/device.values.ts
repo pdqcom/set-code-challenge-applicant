@@ -3,7 +3,6 @@ import DevicesListPage from '../pages/devices-list.page'
 const devicesListPage = new DevicesListPage()
 beforeEach(() => {
   cy.loginAsTestUser()
-  cy.visit('/')
   cy.resetDemoData()
 })
 

@@ -13,12 +13,10 @@ describe('Custom package powershell', () => {
   const customPackageTimeout = '1'
   beforeEach(() => {
     cy.loginAsTestUser()
-    cy.visit('/')
     cy.resetDemoData()
   })
 
   afterEach(() => {
-    cy.visit('/')
     cy.resetDemoData()
   })
 

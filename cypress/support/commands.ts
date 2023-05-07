@@ -51,6 +51,7 @@ Cypress.Commands.add('resetDemoData', () => {
     displayName: 'reset',
     message: `resetting demo data for current org`
   })
+  cy.visit('/')
   cy.get('#debug-header').click()
   cy.contains('Reset demo data').click({ force: true })
 })

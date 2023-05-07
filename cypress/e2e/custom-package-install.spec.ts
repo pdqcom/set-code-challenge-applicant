@@ -19,12 +19,10 @@ describe('Custom package install', () => {
   const customPackageTimeout = '1'
   beforeEach(() => {
     cy.loginAsTestUser()
-    cy.visit('/')
     cy.resetDemoData()
   })
 
   afterEach(() => {
-    cy.visit('/')
     cy.resetDemoData()
   })
 
