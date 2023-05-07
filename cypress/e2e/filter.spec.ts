@@ -8,13 +8,16 @@ const filterModal = new FilterModal()
 describe('filter', () => {
   let deviceInfo: DeviceInfo
 
-  before(() => {
-    cy.loginAsTestUser()
-  })
-
   beforeEach(() => {
     cy.loginAsTestUser()
+    cy.visit('/')
+    cy.resetDemoData()
     devicesListPage.load()
+  })
+
+  afterEach(() => {
+    cy.visit('/')
+    cy.resetDemoData()
   })
 
   it('Can create a filter', () => {

@@ -23,26 +23,26 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import 'cypress-wait-until';
+import 'cypress-wait-until'
 
 import DeviceDetailsPage from '../pages/device-details.page'
 import DevicesListPage from '../pages/devices-list.page'
 import { aliasQuery, hasOperationName } from '../utils/graphql-test-utils'
 
-
 const devicesListPage = new DevicesListPage()
 const deviceDetailsPage = new DeviceDetailsPage()
 const defaultUser = 'default'
-
 
 Cypress.Commands.add('loginAsTestUser', (userKey: string = defaultUser) => {
   Cypress.log({
     name: 'loginAsTestUser',
     displayName: 'login',
-    message: `starting login as test user`,
+    message: `starting login as test user`
   })
   cy.session(userKey, () => {
-
+    cy.request('https://houston-staging.pdq.tools/v1/test-user')
+    cy.visit('https://houston-staging.pdq.tools/')
+    cy.contains('Got it').click()
   })
 })
 
@@ -50,8 +50,10 @@ Cypress.Commands.add('resetDemoData', () => {
   Cypress.log({
     name: 'resetDemoData',
     displayName: 'reset',
-    message: `resetting demo data for current org`,
+    message: `resetting demo data for current org`
   })
+  cy.get('#debug-header').click()
+  cy.contains('Reset demo data').click({ force: true })
 })
 
 Cypress.Commands.add('getFirstDevice', () => {

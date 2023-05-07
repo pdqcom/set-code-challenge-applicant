@@ -18,13 +18,15 @@ describe('Custom package install', () => {
   const customPackageDescription = 'test package made in cypress tests'
   const customPackageVersion = '12'
   const customPackageTimeout = '1'
-  before(() => {
-    cy.loginAsTestUser()
-  })
-
   beforeEach(() => {
     cy.loginAsTestUser()
     cy.visit('/')
+    cy.resetDemoData()
+  })
+
+  afterEach(() => {
+    cy.visit('/')
+    cy.resetDemoData()
   })
 
   it('Can create a custom package', () => {
