@@ -1,4 +1,3 @@
-import DeployMenu from '../pages/deploy-menu.page'
 import DevicesListPage from '../pages/devices-list.page'
 import FilterModal from '../pages/filter-modal'
 import DeviceInfo from '../utils/device-info'

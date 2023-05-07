@@ -30,7 +30,6 @@ import DevicesListPage from '../pages/devices-list.page'
 import { aliasQuery, hasOperationName } from '../utils/graphql-test-utils'
 
 const devicesListPage = new DevicesListPage()
-const deviceDetailsPage = new DeviceDetailsPage()
 const defaultUser = 'default'
 
 Cypress.Commands.add('loginAsTestUser', (userKey: string = defaultUser) => {

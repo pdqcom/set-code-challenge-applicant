@@ -4,7 +4,6 @@ import DeviceDetailsPage from '../pages/device-details.page'
 import DevicesListPage from '../pages/devices-list.page'
 import NavBar from '../pages/nav-bar.page'
 import PackagesPage from '../pages/packages-page'
-import DeviceInfo from '../utils/device-info'
 
 const createPackagePage = new CreatePackagePage()
 const packagesPage = new PackagesPage()
