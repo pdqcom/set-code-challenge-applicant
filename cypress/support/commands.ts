@@ -42,7 +42,15 @@ Cypress.Commands.add('loginAsTestUser', (userKey: string = defaultUser) => {
     message: `starting login as test user`,
   })
   cy.session(userKey, () => {
-
+    // Implemented via API call ✓
+    cy.request({
+      method: 'GET',
+      url: 'https://houston-staging.pdq.tools/v1/test-user',
+      body: {userKey},
+      email: 'test@example.com',
+    }).then(({body}) => {
+      window.localStorage.setItem('authToken', body.token)
+    })
   })
 })
 
