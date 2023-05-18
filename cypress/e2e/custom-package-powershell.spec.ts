@@ -25,6 +25,11 @@ describe('Custom package powershell', () => {
   beforeEach(() => {
     cy.loginAsTestUser()
     cy.visit('/')
+    cy.contains('Got it').click()
+  })
+
+  afterEach(() => {
+    cy.resetDemoData()
   })
 
   it('Can create a custom package', () => {

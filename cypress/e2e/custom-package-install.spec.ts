@@ -25,6 +25,11 @@ describe('Custom package install', () => {
   beforeEach(() => {
     cy.loginAsTestUser()
     cy.visit('/')
+    cy.contains('Got it').click({ force: true })
+  })
+
+  afterEach(() => {
+    cy.resetDemoData()
   })
 
   it('Can create a custom package', () => {

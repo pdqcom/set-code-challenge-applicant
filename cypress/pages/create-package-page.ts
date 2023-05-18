@@ -41,7 +41,8 @@ export default class CreatePackagePage {
   }
 
   get powershellUpload() {
-    return cy.get('[data-testid="powershell-upload"]')
+    // return cy.get('[data-testid="powershell-upload"]')
+    return cy.contains('Import .ps1')
   }
 
   get installerUpload() {

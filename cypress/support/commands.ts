@@ -42,7 +42,7 @@ Cypress.Commands.add('loginAsTestUser', (userKey: string = defaultUser) => {
     message: `starting login as test user`,
   })
   cy.session(userKey, () => {
-
+    cy.request('https://houston-staging.pdq.tools/v1/test-user')
   })
 })
 
@@ -52,6 +52,7 @@ Cypress.Commands.add('resetDemoData', () => {
     displayName: 'reset',
     message: `resetting demo data for current org`,
   })
+  cy.contains('Reset demo data').click({ force: true })
 })
 
 Cypress.Commands.add('getFirstDevice', () => {

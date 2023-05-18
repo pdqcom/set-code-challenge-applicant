@@ -10,6 +10,8 @@ describe('filter', () => {
 
   before(() => {
     cy.loginAsTestUser()
+    cy.visit('/')
+    cy.contains('Got it').click()
   })
 
   beforeEach(() => {
