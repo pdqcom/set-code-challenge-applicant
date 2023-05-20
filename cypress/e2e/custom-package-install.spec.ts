@@ -28,6 +28,7 @@ describe('Custom package install', () => {
   })
 
   it('Can create a custom package', () => {
+    cy.contains('button', 'Got it').click()
     navBar.openPackages()
     packagesPage.createPackageButton.click()
     createPackagePage.fillPackageInfo(
