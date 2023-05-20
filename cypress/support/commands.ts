@@ -42,7 +42,7 @@ Cypress.Commands.add('loginAsTestUser', (userKey: string = defaultUser) => {
     message: `starting login as test user`,
   })
   cy.session(userKey, () => {
-
+    cy.request('https://houston-staging.pdq.tools/v1/test-user')
   })
 })
 
