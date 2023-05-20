@@ -29,6 +29,7 @@ describe('Custom package powershell', () => {
 
   it('Can create a custom package', () => {
     navBar.openPackages()
+    cy.contains('button', 'Got it').click()
     packagesPage.createPackageButton.click()
     createPackagePage.fillPackageInfo(
       customPackageName,
