@@ -18,6 +18,7 @@ describe('filter', () => {
   })
 
   it('Can create a filter', () => {
+    cy.contains('button', 'Got it').click()
     devicesListPage.openFilterModal()
     filterModal.fillTextFilter('0', 'Software', 'Name', 'contains', 'edge')
     filterModal.applyFilter()
