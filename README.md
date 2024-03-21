@@ -4,14 +4,14 @@ Part 1: Cypress
 
 1. Clone the repository 
 2. Implement (or fix!) the tests/commands found in `./cypress` 
-3. Make a PR to the repo
+3. Make a fork of the repo and submit your changes by emailing Jenna a link to your fork
 
 Part 2: Algo Challenge
 1. Visit: 
   `https://codesandbox.io/s/applicant-version-set-algo-challenge-qzpgs`
 2. Fork the sandbox
 3. Follow the directions to complete the task. 
-4. Send us a link to your forked version in an email.
+4. Submit your version by emailing Jenna a link to your fork
 
 
 ## Installation
@@ -26,10 +26,11 @@ npm install
 ```
 ### Quick check ✅
 
-You can manually test the application with at test user in a test environment:
-1. Navigate to https://houston-staging.pdq.tools/v1/test-user
-2. Navigate to https://houston-staging.pdq.tools/
+You can test the application with at new user in a test environment:
+1. Navigate to https://houston-staging.pdq.tools/
+2. Create a new account and sign in
 3. Expand the red drawer to reset demo data
+4. Use this account to complete  `Part 1: Cypress `
 
 ## Running Cypress 
 

@@ -43,6 +43,8 @@ Cypress.Commands.add('loginAsTestUser', (userKey: string = defaultUser) => {
   })
   cy.session(userKey, () => {
 
+    // a cookie for _houston_key is set
+    // when the user logs in
   })
 })
 

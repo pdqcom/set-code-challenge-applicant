@@ -1,14 +1,11 @@
 import DevicesListPage from '../pages/devices-list.page'
 
 const devicesListPage = new DevicesListPage()
-const auth0domain = 'pdq-development.us.auth0.com'
 describe('Authorization', () => {
   it('requires authorizations', () => {
     cy.visit('/')
-    cy.origin(auth0domain, () => {
-      cy.get('input[name=username]')
-      cy.get('input[name=password]')
-    })
+      cy.get('#username')
+      cy.get('#password')
   })
 
   it('logs in with test user', () => {
@@ -39,9 +36,7 @@ describe('Authorization', () => {
     cy.loginAsTestUser()
     devicesListPage.load()
     cy.get('[href="/logout"]').click()
-    cy.origin(auth0domain, () => {
       cy.get('input#username')
       cy.get('input#password')
-    })
   })
 })

@@ -5,13 +5,9 @@ import DevicesListPage from '../pages/devices-list.page'
 import NavBar from '../pages/nav-bar.page'
 import PackagesPage from '../pages/packages-page'
 import DeviceInfo from '../utils/device-info'
+import { Connect } from 'support'
 
-const createPackagePage = new CreatePackagePage()
-const packagesPage = new PackagesPage()
-const navBar = new NavBar()
-const devicesListPage = new DevicesListPage()
-const deployMenu = new DeployMenu()
-const deviceDetailsPage = new DeviceDetailsPage()
+const connect = new Connect()
 
 describe('Custom package install', () => {
   const customPackageName = 'test package installer 1234'
@@ -28,17 +24,23 @@ describe('Custom package install', () => {
   })
 
   it('Can create a custom package', () => {
-    navBar.openPackages()
-    packagesPage.createPackageButton.click()
-    createPackagePage.fillPackageInfo(
-      customPackageName,
-      customPackageDescription,
-      customPackageVersion,
-      customPackageTimeout
-    )
-    createPackagePage.createPackageStep('./cypress/resources/hello.exe', '420')
-    createPackagePage.saveButton.click()
-    packagesPage.searchBox.click().type(customPackageName)
-    packagesPage.packagesGrid.contains(customPackageName)
+     // create custom package
+     connect.navBar.openPackages()
+     connect.packagesPage.createPackageButton.click()
+     connect.createPackagePage.fillPackageInfo(
+       customPackageName,
+       customPackageDescription,
+       customPackageVersion,
+       customPackageTimeout
+     )
+     connect.createPackagePage.createPackageStep(
+       './cypress/resources/hello.exe',
+       '420',
+       '/S'
+     )
+     connect.createPackagePage.saveButton.click()
+     connect.packagesPage.searchBox.click().type(customPackageName)
+     connect.packagesPage.packagesGrid.contains(customPackageName).click()
+
   })
 })

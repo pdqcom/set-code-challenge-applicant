@@ -38,7 +38,8 @@ describe('Custom package powershell', () => {
     )
     createPackagePage.createPackageStep(
       './cypress/resources/hello-world.ps1',
-      '0'
+      '0',
+      '/S'
     )
     createPackagePage.saveButton.click()
     packagesPage.searchBox.click().type(customPackageName)

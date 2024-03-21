@@ -4,33 +4,21 @@ class FilterModal {
     category: string,
     field: string,
     operator: string,
-    input: string
+    input?: string
   ) {
     let filterGroup = cy.get(`[data-testid=filter-${filterGroupId}`)
 
-    filterGroup
-      .get('[data-testid=filter-category-selector]')
-      .click()
-      .get('ul > li')
-      .contains(category)
-      .click()
+    fillFilterDropDowns(filterGroup, category, field, operator)
 
-    filterGroup
-      .get('[data-testid=filter-field-selector]')
-      .click()
-      .get('ul > li')
-      .contains(field)
-      .click()
-
-    filterGroup
-      .get('[data-testid=filter-operator-selector]')
-      .click()
-      .get('ul > li')
-      .contains(operator)
-      .click()
-
-    filterGroup.get('[data-testid=filter-input-text]').type(input)
+    if (input) {
+      filterGroup.within(() => {
+        filterGroup.get('[data-testid=filter-input-text]').type(input)
+      })
+    }
   }
+  
+  
+ 
   saveGroup(name: string) {
     cy.contains('Save as group').click()
     cy.get('[data-testid=create-group-name]').type(name)
@@ -41,5 +29,33 @@ class FilterModal {
     cy.get('[data-testid=apply-button]').click()
   }
 }
+const muiDropDownSelect = (category: string) => {
+  cy.get('[class~="MuiMenu-list"]').within(() => {
+    cy.contains(new RegExp('^' + category + '$', 'g')).click() //look for an exact match
+  })
+}
 
+const fillFilterDropDowns = (
+  filterGroup: Cypress.Chainable<JQuery<HTMLElement>>,
+  category: string,
+  field: string,
+  operator: string
+) => {
+  filterGroup.within(() => {
+    cy.get('[data-testid=filter-category-selector]').click()
+  })
+
+  muiDropDownSelect(category)
+
+  filterGroup.within(() => {
+    cy.get('[data-testid=filter-field-selector]').click()
+  })
+
+  muiDropDownSelect(field)
+
+  filterGroup.within(() => {
+    cy.get('[data-testid=filter-operator-selector]').click()
+  })
+  muiDropDownSelect(operator)
+}
 export default FilterModal

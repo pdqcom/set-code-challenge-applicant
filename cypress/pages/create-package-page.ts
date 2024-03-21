@@ -41,7 +41,7 @@ export default class CreatePackagePage {
   }
 
   get powershellUpload() {
-    return cy.get('[data-testid="powershell-upload"]')
+    return cy.contains('Import .ps1')
   }
 
   get installerUpload() {
@@ -49,7 +49,7 @@ export default class CreatePackagePage {
   }
 
   additionalFileUpload() {
-    return cy.get('[type="file"][multiple]')
+    return cy.get('[data-testid="attach-file"]')
   }
 
   fillPackageInfo(
@@ -64,14 +64,19 @@ export default class CreatePackagePage {
     this.timeoutEntry.click().clear().type(customPackageTimeout)
   }
 
-  createPackageStep(file: string, exitcodes: string, isPowershell?: boolean) {
+  createPackageStep(
+    file: string,
+    exitcodes: string,
+    parameter: string,
+    isPowershell?: boolean
+  ) {
     if (isPowershell) {
       this.clickAddPowershellStepButton()
     } else {
       this.clickInstallStepButton()
     }
     this.stepNameEntry.click().clear().type('step 1 run hello world')
-    this.stepParametersEntry.click().clear().type('/S')
+    this.stepParametersEntry.click().clear().type(parameter)
     this.stepSuccessCodesEntry.click().clear().type(exitcodes)
     if (isPowershell) {
       this.powershellUpload.selectFile(file, { force: true })
