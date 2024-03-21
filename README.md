@@ -3,7 +3,7 @@
 Part 1: Cypress 
 
 1. Clone the repository 
-2. Implement (or fix!) the tests/commands found in `./cypress` 
+2. Implement (or fix!) the tests and commands found in `./cypress` 
 3. Make a fork of the repo and submit your changes by emailing Jenna a link to your fork
 
 Part 2: Algo Challenge
@@ -27,8 +27,9 @@ npm install
 ### Quick check ✅
 
 You can test the application with at new user in a test environment:
-1. Navigate to https://houston-staging.pdq.tools/
-2. Create a new account and sign in
+1. Navigate to https://houston-staging.pdq.tools/login?company_name=your_cool_company_name
+    + You must provide your own unique company name in the above url. Please replace your_cool_company_name with another name.
+2. Create a new account when requested to sign in
 3. Expand the red drawer to reset demo data
 4. Use this account to complete  `Part 1: Cypress `
 
