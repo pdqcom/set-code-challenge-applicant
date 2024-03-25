@@ -29,7 +29,8 @@ npm install
 You can test the application with at new user in a test environment:
 1. Navigate to https://houston-staging.pdq.tools/login?company_name=your_cool_company_name
     + You must provide your own unique company name in the above url. Please replace your_cool_company_name with another name.
-2. Create a new account when requested to sign in
+2. Create a new account with any email address that ends in @qatestpdq.com
+    + Example iamjohn@qatestpdq.com
 3. Expand the red drawer to reset demo data
 4. Use this account to complete  `Part 1: Cypress `
 
