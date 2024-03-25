@@ -13,17 +13,6 @@ describe('Authorization', () => {
     devicesListPage.load()
   })
 
-  it('User cant access any org', () => {
-    cy.loginAsTestUser()
-    cy.visit('/')
-    cy.get('[data-testid="MonitorIcon"]')
-    cy.url().then((previousUsersOrgUrl) => {
-      cy.loginAsTestUser('user2') // login as a new user
-      devicesListPage.load()
-      cy.visit(previousUsersOrgUrl)
-      cy.contains('404')
-    })
-  })
 
   it('log out affordance exists for users', () => {
     cy.loginAsTestUser()

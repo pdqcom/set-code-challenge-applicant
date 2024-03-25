@@ -10,7 +10,7 @@ import { Connect } from 'support'
 const connect = new Connect()
 
 describe('Custom package install', () => {
-  const customPackageName = 'test package installer 1234'
+  const customPackageName = 'test package installer 12345'
   const customPackageDescription = 'test package made in cypress tests'
   const customPackageVersion = '12'
   const customPackageTimeout = '1'
@@ -43,4 +43,14 @@ describe('Custom package install', () => {
      connect.packagesPage.packagesGrid.contains(customPackageName).click()
 
   })
+
+  it('Custom package saved correctly', () => {
+    
+    // TODO  open package again to verify it saved correctly
+  })
+
+  it('Can create a package with multiple steps', () => {
+    // TODO
+  })
+
 })

@@ -42,6 +42,9 @@ Cypress.Commands.add('loginAsTestUser', (userKey: string = defaultUser) => {
     message: `starting login as test user`,
   })
   cy.session(userKey, () => {
+    // TODO login as test user
+    cy.visit('/')
+
 
     // a cookie for _houston_key is set
     // when the user logs in

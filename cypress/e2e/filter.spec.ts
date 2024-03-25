@@ -15,12 +15,14 @@ describe('filter', () => {
   beforeEach(() => {
     cy.loginAsTestUser()
     devicesListPage.load()
+    // TODO reset demo data
   })
 
   it('Can create a filter', () => {
     devicesListPage.openFilterModal()
     filterModal.fillTextFilter('0', 'Software', 'Name', 'contains', 'edge')
     filterModal.applyFilter()
+    //TODO validate filter only shows the correct devices
   })
 
   it('Can save a group', () => {
@@ -29,5 +31,6 @@ describe('filter', () => {
     filterModal.fillTextFilter('0', 'Software', 'Name', 'contains', 'edge')
     filterModal.saveGroup(groupName)
     devicesListPage.getGroupTab(groupName)
+    //TODO validate saved group only shows the correct devices
   })
 })
