@@ -10,8 +10,10 @@ Part 2: Algo Challenge
 1. Visit: 
   `https://codesandbox.io/s/applicant-version-set-algo-challenge-qzpgs`
 2. Fork the sandbox
-3. Follow the directions to complete the task. 
-4. Submit your version by emailing Jenna a link to your fork
+3. run `npx ts-jest config:init` to configure your environment for TypeScript tests
+4. run your tests with `npx jest`
+5. Follow the directions to complete the task. 
+6. Submit your version by emailing Jenna a link to your fork
 
 
 ## Installation
